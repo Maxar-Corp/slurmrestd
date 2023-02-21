@@ -5,8 +5,7 @@ RUN yum -y install \
     yum -y update && \
     yum -y install \
         epel-rpm-macros \
-        rpm-build \
-        sssd-client
+        rpm-build
 
 RUN yum -y install \
         autoconf \
