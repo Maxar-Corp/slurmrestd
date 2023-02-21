@@ -1,61 +1,30 @@
---- slurm.spec.orig	2022-11-16 10:01:20.472254667 +0100
-+++ slurm.spec	2022-12-19 14:50:48.032580680 +0100
-@@ -16,7 +16,7 @@
- 
- Name:           slurm
- Version:        20.11.9
--Release:        1%{?dist}
-+Release:        1.mx1%{?dist}
- Summary:        Simple Linux Utility for Resource Management
- License:        GPLv2 and BSD
- URL:            https://slurm.schedmd.com/
-@@ -40,6 +40,9 @@
- Patch20:        slurm_pmix_soname.patch
- Patch21:        slurm_to_python3.patch
- 
-+# Maxar patches
-+Patch100:       slurm-20.11.9-0.0.38-backport.patch
-+
- BuildRequires:  autoconf
- BuildRequires:  automake
- BuildRequires:  desktop-file-utils
-@@ -183,7 +186,7 @@
- %if (0%{?fedora} >= 34) || 0%{?el7} || 0%{?el8}
- %package slurmrestd
- Summary: Slurm REST API deamon
--Requires: %{name}%{?_isa} = %{version}-%{release}
-+Requires: %{name}%{?_isa} = %{version}-1%{?dist}
- %description slurmrestd
- Slurm REST API daemon.  The slurmrestd daemon is designed to allow clients
- to communicate with Slurm via a REST API.
-@@ -258,9 +261,9 @@
- autoconf
- automake --no-force
- # use -fcommon for gcc 10 to avoid multiple definition errors
--export CFLAGS="%{build_cflags} -fcommon"
-+#export CFLAGS="%{build_cflags} -fcommon"
- # use -z lazy to allow dlopen with unresolved symbols
--export LDFLAGS="%{build_ldflags} -Wl,-z,lazy"
-+export LDFLAGS="-Wl,-z,lazy"
- %configure \
-   --prefix=%{_prefix} \
-   --sysconfdir=%{_sysconfdir}/%{name} \
-@@ -641,6 +644,8 @@
- 
- %if (0%{?fedora} >= 34) || 0%{?el7} || 0%{?el8}
- %files slurmrestd
-+%{_libdir}/%{name}/openapi_dbv0_0_38.so
-+%{_libdir}/%{name}/openapi_v0_0_38.so
- %{_libdir}/%{name}/openapi_dbv0_0_36.so
- %{_libdir}/%{name}/openapi_v0_0_36.so
- %{_libdir}/%{name}/openapi_v0_0_35.so
-@@ -769,6 +774,9 @@
- %systemd_postun_with_restart slurmdbd.service
- 
- %changelog
-+* Mon Dec 19 2022 Maxar <noreply@maxar.com> - 20.11.9-1.mx1
-+- Backport openapi 0.0.38
-+
- * Thu May 05 2022 Carl George <carl@george.computer> - 20.11.9-1
- - Update to 20.11.9, resolves: rhbz#2081896
- - Fix CVE-2022-29500, resolves: rhbz#2082285
+19c19
+< Release:        1%{?dist}
+---
+> Release:        1.mx1%{?dist}
+28a29,30
+> Vendor:		Maxar Technologies, Inc. (per.lundblad@maxar.com)
+> Packager:	Maxar Technologies, Inc. (per.lundblad@maxar.com)
+42a45,47
+> # Maxar patches
+> Patch100:       slurm-20.11.9-0.0.38-backport.patch
+> 
+186c191
+< Requires: %{name}%{?_isa} = %{version}-%{release}
+---
+> Requires: %{name}%{?_isa} = %{version}-1%{?dist}
+261c266
+< export CFLAGS="%{build_cflags} -fcommon"
+---
+> #export CFLAGS="%{build_cflags} -fcommon"
+263c268
+< export LDFLAGS="%{build_ldflags} -Wl,-z,lazy"
+---
+> export LDFLAGS="-Wl,-z,lazy"
+643a649,650
+> %{_libdir}/%{name}/openapi_dbv0_0_38.so
+> %{_libdir}/%{name}/openapi_v0_0_38.so
+771a779,781
+> * Mon Dec 19 2022 Maxar <noreply@maxar.com> - 20.11.9-1.mx1
+> - Backport openapi 0.0.38
+> 
