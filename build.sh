@@ -11,7 +11,6 @@ docker run \
     --user $(id -u):$(id -g) \
     --volume $(realpath $(dirname $0)):/slurm \
     --volume $HOME:$HOME \
-    --volume /var/lib/sss/pipes:/var/lib/sss/pipes \
     --workdir /slurm \
     slurmbuild \
     ./build-docker.sh
