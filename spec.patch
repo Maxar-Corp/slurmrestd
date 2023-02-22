@@ -1,5 +1,5 @@
---- slurm.spec.orig	2022-11-16 10:01:20.472254667 +0100
-+++ slurm.spec	2022-12-19 14:50:48.032580680 +0100
+--- slurm.spec	2023-02-22 09:53:34.983048053 +0000
++++ /root/rpmbuild/SPECS/slurm.spec	2023-02-22 10:02:42.087494492 +0000
 @@ -16,7 +16,7 @@
  
  Name:           slurm
@@ -9,7 +9,16 @@
  Summary:        Simple Linux Utility for Resource Management
  License:        GPLv2 and BSD
  URL:            https://slurm.schedmd.com/
-@@ -40,6 +40,9 @@
+@@ -26,6 +26,8 @@
+ Source3:        slurm-sview.desktop
+ Source4:        slurm-128x128.png
+ Source5:        slurm-setuser.in
++Vendor:		Maxar Technologies, Inc. (per.lundblad@maxar.com)
++Packager:	Maxar Technologies, Inc. (per.lundblad@maxar.com)
+ 
+ # Release-style versioning of libslurmfull/libslurm_pmi
+ Patch0:         slurm_release_version.patch
+@@ -40,6 +42,9 @@
  Patch20:        slurm_pmix_soname.patch
  Patch21:        slurm_to_python3.patch
  
@@ -19,7 +28,7 @@
  BuildRequires:  autoconf
  BuildRequires:  automake
  BuildRequires:  desktop-file-utils
-@@ -183,7 +186,7 @@
+@@ -183,7 +188,7 @@
  %if (0%{?fedora} >= 34) || 0%{?el7} || 0%{?el8}
  %package slurmrestd
  Summary: Slurm REST API deamon
@@ -28,7 +37,7 @@
  %description slurmrestd
  Slurm REST API daemon.  The slurmrestd daemon is designed to allow clients
  to communicate with Slurm via a REST API.
-@@ -258,9 +261,9 @@
+@@ -258,9 +263,9 @@
  autoconf
  automake --no-force
  # use -fcommon for gcc 10 to avoid multiple definition errors
@@ -40,7 +49,7 @@
  %configure \
    --prefix=%{_prefix} \
    --sysconfdir=%{_sysconfdir}/%{name} \
-@@ -641,6 +644,8 @@
+@@ -641,6 +646,8 @@
  
  %if (0%{?fedora} >= 34) || 0%{?el7} || 0%{?el8}
  %files slurmrestd
@@ -49,11 +58,11 @@
  %{_libdir}/%{name}/openapi_dbv0_0_36.so
  %{_libdir}/%{name}/openapi_v0_0_36.so
  %{_libdir}/%{name}/openapi_v0_0_35.so
-@@ -769,6 +774,9 @@
+@@ -769,6 +776,9 @@
  %systemd_postun_with_restart slurmdbd.service
  
  %changelog
-+* Mon Dec 19 2022 Maxar <noreply@maxar.com> - 20.11.9-1.mx1
++* Mon Dec 19 2022 Maxar Technologies Inc. <per.lundblad@maxar.com> - 20.11.9-1.mx1
 +- Backport openapi 0.0.38
 +
  * Thu May 05 2022 Carl George <carl@george.computer> - 20.11.9-1
